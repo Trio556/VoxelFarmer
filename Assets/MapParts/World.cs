@@ -66,21 +66,21 @@ public class World : MonoBehaviour
         return new BlockAir();
     }
 
-    public void SetBlock(int x, int y, int z, Block block)
+    public void SetBlock(int x, int y, int z, Block block, bool isAdd = false)
     {
         Chunk chunk = GetChunk(x, y, z);
 
         if (chunk != null)
         {
-            chunk.SetBlock(x - chunk.pos.x, y - chunk.pos.y, z - chunk.pos.z, block);
+            chunk.SetBlock(x - (isAdd ? -1 * chunk.pos.x : chunk.pos.x), y - (isAdd ? -1 * chunk.pos.y : chunk.pos.y), z - (isAdd ? -1 * chunk.pos.z : chunk.pos.z), block);
             chunk.update = true;
             
-            UpdateIfEqual(x - chunk.pos.x, 0, new WorldPos(x - 1, y, z));
-            UpdateIfEqual(x - chunk.pos.x, Chunk.chunkSize - 1, new WorldPos(x + 1, y, z));
-            UpdateIfEqual(y - chunk.pos.y, 0, new WorldPos(x, y - 1, z));
-            UpdateIfEqual(y - chunk.pos.y, Chunk.chunkSize - 1, new WorldPos(x, y + 1, z));
-            UpdateIfEqual(z - chunk.pos.z, 0, new WorldPos(x, y, z - 1));
-            UpdateIfEqual(z - chunk.pos.z, Chunk.chunkSize - 1, new WorldPos(x, y, z + 1));
+            UpdateIfEqual(x - (isAdd ? -1 * chunk.pos.x : chunk.pos.x), 0, new WorldPos(x - (isAdd ? -1 * 1 : 1), y, z));
+            UpdateIfEqual(x - (isAdd ? -1 * chunk.pos.x : chunk.pos.x), Chunk.chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x + 1, y, z));
+            UpdateIfEqual(y - (isAdd ? -1 * chunk.pos.y : chunk.pos.y), 0, new WorldPos(x, y - (isAdd ? -1 * 1 : 1), z));
+            UpdateIfEqual(y - (isAdd ? -1 * chunk.pos.y : chunk.pos.y), Chunk.chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x, y + (isAdd ? -1 * 1 : 1), z));
+            UpdateIfEqual(z - (isAdd ? -1 * chunk.pos.z : chunk.pos.z), 0, new WorldPos(x, y, z - (isAdd ? -1 * 1 : 1)));
+            UpdateIfEqual(z - (isAdd ? -1 * chunk.pos.z : chunk.pos.z), Chunk.chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x, y, z + (isAdd ? -1 * 1 : 1)));
         }
     }
 

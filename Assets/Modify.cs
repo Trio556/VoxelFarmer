@@ -23,5 +23,13 @@ public class Modify : MonoBehaviour
                 EditTerrain.SetBlock(hit, new BlockAir());
             }
         }
+        else if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 100))
+            {
+                EditTerrain.SetBlock(hit, new BlockGrass(), true);
+            }
+        }
     }
 }
