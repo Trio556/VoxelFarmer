@@ -72,6 +72,7 @@ public class World : MonoBehaviour
 
         if (chunk != null)
         {
+            //TODO: Remove logic for flipping signs using isAdd and create a better way of achiving the same results that is cleaner
             chunk.SetBlock(x - (isAdd ? -1 * chunk.pos.x : chunk.pos.x), y - (isAdd ? -1 * chunk.pos.y : chunk.pos.y), z - (isAdd ? -1 * chunk.pos.z : chunk.pos.z), block);
             chunk.update = true;
             
