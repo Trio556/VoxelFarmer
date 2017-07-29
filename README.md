@@ -13,4 +13,5 @@ Base Features Completed:
 1) Basic Procedural Voxel Terrain
 
 I am using the following tutorials to help me:
-http://alexstv.com/index.php/ - Unity voxel block tutorial's
+
+1) http://alexstv.com/index.php/ - Unity voxel block tutorial's
