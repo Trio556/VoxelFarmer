@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Modify : MonoBehaviour
 {
@@ -15,14 +16,14 @@ public class Modify : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 100))
-            {
-                EditTerrain.SetBlock(hit, new BlockAir());
-            }
-        }
+        //if (CrossPlatformInputManager.GetButtonDown(""))
+        //{
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(transform.position, transform.forward, out hit, 100))
+        //    {
+        //        EditTerrain.SetBlock(hit, new BlockAir());
+        //    }
+        //}
 
         rot = new Vector2(
             rot.x + Input.GetAxis("Mouse X") * 3,
