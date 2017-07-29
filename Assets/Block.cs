@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
+[Serializable]
 public class Block
 {
     public enum Direction { north, east, south, west, up, down };
     public struct Tile { public int x; public int y; }
     const float tileSize = 0.25f;
+    public bool changed = true;
 
     //Base block constructor
     public Block()

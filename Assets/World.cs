@@ -7,25 +7,7 @@ public class World : MonoBehaviour
 
     public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
     public GameObject chunkPrefab;
-
-	// Use this for initialization
-	void Start () {
-        for (int x = -2; x < 2; x++)
-        {
-            for (int y = -1; y < 1; y++)
-            {
-                for (int z = -1; z < 1; z++)
-                {
-                    CreateChunk(x * 16, y * 16, z * 16);
-                }
-            }
-        }
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public string worldName = "world";
 
     public void CreateChunk(int x, int y, int z)
     {
@@ -41,23 +23,11 @@ public class World : MonoBehaviour
         //Add  it to the shunks dictionary with the position as the key
         chunks.Add(worldPos, newChunk);
 
-        for (int xi = 0; xi < 16; xi++)
-        {
-            for (int yi = 0; yi < 16; yi++)
-            {
-                for (int zi = 0; zi < 16; zi++)
-                {
-                    if (yi <= 7)
-                    {
-                        SetBlock(x + xi, y + yi, z + zi, new BlockGrass());
-                    }
-                    else
-                    {
-                        SetBlock(x + xi, y + yi, z + zi, new BlockAir());
-                    }
-                }
-            }
-        }
+        var terrainGen = new TerrainGen();
+        newChunk = terrainGen.ChunkGen(newChunk);
+
+        newChunk.SetBlocksUnmodified();
+        var loaded = Serialization.Load(newChunk);
     }
 
     public void DestroyChunk(int x, int y, int z)
@@ -65,6 +35,7 @@ public class World : MonoBehaviour
         Chunk chunk = null;
         if (chunks.TryGetValue(new WorldPos(x, y, z), out chunk))
         {
+            Serialization.SaveChunk(chunk);
             Destroy(chunk.gameObject);
             chunks.Remove(new WorldPos(x, y, z));
         }

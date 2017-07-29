@@ -108,4 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   update: 1
+  rendered: 0
   world: {fileID: 0}
+  pos:
+    x: 0
+    y: 0
+    z: 0

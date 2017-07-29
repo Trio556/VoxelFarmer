@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
+[Serializable]
 public struct WorldPos
 {
     public int x;
@@ -16,13 +18,21 @@ public struct WorldPos
 
     public override bool Equals(object obj)
     {
-        if (!(obj is WorldPos))
-            return false;
-        var pos = (WorldPos)obj;
+        if (GetHashCode() == obj.GetHashCode())
+            return true;
 
-        if (pos.x != x || pos.y != y || pos.z != z)
-            return false;
+        return false;
+    }
 
-        return true;
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int hash = 47;
+            hash = hash * 227 + x.GetHashCode();
+            hash = hash * 227 + y.GetHashCode();
+            hash = hash * 227 + z.GetHashCode();
+            return hash;
+        }
     }
 }

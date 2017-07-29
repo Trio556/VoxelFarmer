@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -8,8 +7,9 @@ using System.Collections;
 public class Chunk : MonoBehaviour
 {
     public static int chunkSize = 16;
-    Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
-    public bool update = true;
+    public Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
+    public bool update = false;
+    public bool rendered;
     public World world;
     public WorldPos pos;
 
@@ -26,10 +26,20 @@ public class Chunk : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
+        rendered = true;
+
         if (update)
         {
             update = false;
             UpdateChunk();
+        }
+    }
+
+    public void SetBlocksUnmodified()
+    {
+        foreach (var block in blocks)
+        {
+            block.changed = false;
         }
     }
 
