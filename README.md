@@ -15,3 +15,5 @@ Base Features Completed:
 I am using the following tutorials to help me:
 
 1) http://alexstv.com/index.php/ - Unity voxel block tutorial's
+2) https://www.youtube.com/watch?v=ZW6RCKVnqT4&list=PLivfKP2ufIK78r7nzfpIEH89Nlnb__RRG - Unity Inventory Tutorial by GameGrind
+   https://www.youtube.com/channel/UCTY3kks3U4RDvpMX87fvo1A - GameGrinds Youtube channel
