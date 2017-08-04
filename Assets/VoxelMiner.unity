@@ -653,8 +653,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1329704476}
   - component: {fileID: 1329704475}
+  - component: {fileID: 1329704477}
   m_Layer: 0
-  m_Name: InventoryTest
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -684,6 +685,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329704477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1329704474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54aca767fadd2114da46b3901d8bacfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySlot: {fileID: 1231827960147330, guid: 7147ca27ce406a14f9c20931c679d057,
+    type: 2}
+  inventoryItem: {fileID: 1216470143539154, guid: dd866da47fac09447ac073c485b769c5,
+    type: 2}
+  slots: []
 --- !u!1 &1370576726
 GameObject:
   m_ObjectHideFlags: 0
