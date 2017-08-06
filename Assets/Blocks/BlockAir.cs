@@ -17,7 +17,7 @@ public class BlockAir : Block
         return meshData;
     }
 
-    public override bool IsSolid(Block.Direction direction)
+    public override bool IsSolid(Direction direction)
     {
         return false;
     }
