@@ -16,10 +16,7 @@ public class Block
 
     public virtual Tile TexturePosition(Direction direction)
     {
-        var tile = new Tile();
-        tile.x = 0;
-        tile.y = 0;
-        return tile;
+        return new Tile();
     }
 
     public virtual Vector2[] FaceBlockUVs(Direction direction)
