@@ -34,7 +34,7 @@ public static class EditTerrain
 
         WorldPos pos = GetBlockPos(hit, adjacent);
 
-        Block block = chunk.world.GetBlock(pos.x, pos.y, pos.z);
+        Block block = chunk._world.GetBlock(pos.x, pos.y, pos.z);
 
         return block;
     }
@@ -47,7 +47,7 @@ public static class EditTerrain
 
         WorldPos pos = GetBlockPos(hit, adjacent);
 
-        chunk.world.SetBlock(pos.x, pos.y, pos.z, block);
+        chunk._world.SetBlock(pos.x, pos.y, pos.z, block);
         return true;
     }
 

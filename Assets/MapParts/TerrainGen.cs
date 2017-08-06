@@ -19,9 +19,9 @@ public class TerrainGen
 
     public Chunk ChunkGen(Chunk chunk)
     {
-        for (int x = chunk.pos.x - 3; x < chunk.pos.x + Chunk.chunkSize + 3; x++)
+        for (int x = chunk._pos.x - 3; x < chunk._pos.x + Chunk._chunkSize + 3; x++)
         {
-            for (int z = chunk.pos.z - 3; z < chunk.pos.z + Chunk.chunkSize + 3; z++)
+            for (int z = chunk._pos.z - 3; z < chunk._pos.z + Chunk._chunkSize + 3; z++)
             {
                 chunk = ChunkColumnGen(chunk, x, z);
             }
@@ -38,7 +38,7 @@ public class TerrainGen
         stoneHeight += GetNoise(x, 0, z, stoneBaseNoise, Mathf.FloorToInt(stoneBaseNoiseHeight));
         int dirtHeight = stoneHeight + Mathf.FloorToInt(dirtBaseHeight);
         dirtHeight += GetNoise(x, 100, z, dirtNoise, Mathf.FloorToInt(dirtNoiseHeight));
-        for (int y = chunk.pos.y - 8; y < chunk.pos.y + Chunk.chunkSize; y++)
+        for (int y = chunk._pos.y - 8; y < chunk._pos.y + Chunk._chunkSize; y++)
         {
             //Get a value to base cave generation on
             int caveChance = GetNoise(x, y, z, caveFrequency, 100);
@@ -82,12 +82,12 @@ public class TerrainGen
 
     public static void SetBlock(int x, int y, int z, Block block, Chunk chunk, bool replaceBlocks = false)
     {
-        x -= chunk.pos.x;
-        y -= chunk.pos.y;
-        z -= chunk.pos.z;
+        x -= chunk._pos.x;
+        y -= chunk._pos.y;
+        z -= chunk._pos.z;
         if (Chunk.InRange(x) && Chunk.InRange(y) && Chunk.InRange(z))
         {
-            if (replaceBlocks || chunk.blocks[x, y, z] == null)
+            if (replaceBlocks || chunk._blocks[x, y, z] == null)
                 chunk.SetBlock(x, y, z, block);
         }
     }

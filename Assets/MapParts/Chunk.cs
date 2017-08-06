@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -6,38 +7,38 @@
 
 public class Chunk : MonoBehaviour
 {
-    public static int chunkSize = 16;
-    public Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
-    public bool update = false;
-    public bool rendered;
-    public World world;
-    public WorldPos pos;
+    public static int _chunkSize = 16;
+    public Block[,,] _blocks = new Block[_chunkSize, _chunkSize, _chunkSize];
+    public bool _update = false;
+    public bool _rendered;
+    public World _world;
+    public WorldPos _pos;
 
-    MeshFilter filter;
-    MeshCollider coll;
+    private MeshFilter _filter;
+    private MeshCollider _collider;
 
     // Use this for initialization
     void Start()
     {
-        filter = gameObject.GetComponent<MeshFilter>();
-        coll = gameObject.GetComponent<MeshCollider>();
+        _filter = gameObject.GetComponent<MeshFilter>();
+        _collider = gameObject.GetComponent<MeshCollider>();
     }
 
     //Update is called once per frame
     void Update()
     {
-        rendered = true;
 
-        if (update)
+        if (_update)
         {
-            update = false;
+            _update = false;
             UpdateChunk();
+            _rendered = true;
         }
     }
 
     public void SetBlocksUnmodified()
     {
-        foreach (var block in blocks)
+        foreach (var block in _blocks)
         {
             block.changed = false;
         }
@@ -46,25 +47,25 @@ public class Chunk : MonoBehaviour
     public Block GetBlock(int x, int y, int z)
     {
         if (InRange(x) && InRange(y) && InRange(z))
-            return blocks[x, y, z];
-        return world.GetBlock(pos.x + x, pos.y + y, pos.z + z);
+            return _blocks[x, y, z];
+        return _world.GetBlock(_pos.x + x, _pos.y + y, _pos.z + z);
     }
 
     public void SetBlock(int x, int y, int z, Block block)
     {
         if (InRange(x) && InRange(y) && InRange(z))
         {
-            blocks[x, y, z] = block;
+            _blocks[x, y, z] = block;
         }
         else
         {
-            world.SetBlock(pos.x + x, pos.y + y, pos.z + z, block);
+            _world.SetBlock(_pos.x + x, _pos.y + y, _pos.z + z, block);
         }
     }
 
     public static bool InRange(int index)
     {
-        if (index < 0 || index >= chunkSize)
+        if (index < 0 || index >= _chunkSize)
             return false;
 
         return true;
@@ -75,13 +76,13 @@ public class Chunk : MonoBehaviour
     {
         MeshData meshData = new MeshData();
 
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < _chunkSize; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < _chunkSize; y++)
             {
-                for (int z = 0; z < chunkSize; z++)
+                for (int z = 0; z < _chunkSize; z++)
                 {
-                    meshData = blocks[x, y, z].Blockdata(this, x, y, z, meshData);
+                    meshData = _blocks[x, y, z].Blockdata(this, x, y, z, meshData);
                 }
             }
         }
@@ -93,19 +94,19 @@ public class Chunk : MonoBehaviour
     // to the mesh and collision components
     void RenderMesh(MeshData meshData)
     {
-        filter.mesh.Clear();
-        filter.mesh.vertices = meshData.vertices.ToArray();
-        filter.mesh.triangles = meshData.triangles.ToArray();
-        filter.mesh.uv = meshData.uv.ToArray();
-        filter.mesh.RecalculateNormals();
+        _filter.mesh.Clear();
+        _filter.mesh.vertices = meshData.vertices.ToArray();
+        _filter.mesh.triangles = meshData.triangles.ToArray();
+        _filter.mesh.uv = meshData.uv.ToArray();
+        _filter.mesh.RecalculateNormals();
 
-        coll.sharedMesh = null;
+        _collider.sharedMesh = null;
         Mesh mesh = new Mesh();
         mesh.vertices = meshData.colVertices.ToArray();
         mesh.triangles = meshData.colTriangles.ToArray();
         mesh.RecalculateNormals();
 
-        coll.sharedMesh = mesh;
+        _collider.sharedMesh = mesh;
     }
 
 }

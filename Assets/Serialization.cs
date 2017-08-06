@@ -30,8 +30,8 @@ public class Serialization
         Save save = new Save(chunk);    
         if (save.blocks.Count == 0)     
             return;                     
-        string saveFile = SaveLocation(chunk.world.worldName);
-        saveFile += FileName(chunk.pos);
+        string saveFile = SaveLocation(chunk._world.worldName);
+        saveFile += FileName(chunk._pos);
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(saveFile, FileMode.Create, FileAccess.Write, FileShare.None);
         formatter.Serialize(stream, save);  
@@ -40,8 +40,8 @@ public class Serialization
 
     public static bool Load(Chunk chunk)
     {
-        string saveFile = SaveLocation(chunk.world.worldName);
-        saveFile += FileName(chunk.pos);
+        string saveFile = SaveLocation(chunk._world.worldName);
+        saveFile += FileName(chunk._pos);
 
         if (!File.Exists(saveFile))
             return false;
@@ -53,7 +53,7 @@ public class Serialization
 
         foreach (var block in save.blocks)
         {
-            chunk.blocks[block.Key.x, block.Key.y, block.Key.z] = block.Value;
+            chunk._blocks[block.Key.x, block.Key.y, block.Key.z] = block.Value;
         }
 
         stream.Close();
