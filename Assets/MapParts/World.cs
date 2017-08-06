@@ -5,9 +5,11 @@ using UnityEngine;
 public class World : MonoBehaviour
 {
 
-    public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
+    public Dictionary<WorldPos, Chunk> _chunks = new Dictionary<WorldPos, Chunk>();
+
+    //TODO: Research why an underscore prevents prefab from binding
     public GameObject chunkPrefab;
-    public string worldName = "world";
+    public string _worldName = "world";
 
     public void CreateChunk(int x, int y, int z)
     {
@@ -20,8 +22,8 @@ public class World : MonoBehaviour
         newChunk._pos = worldPos;
         newChunk._world = this;
 
-        //Add  it to the shunks dictionary with the position as the key
-        chunks.Add(worldPos, newChunk);
+        //Add  it to the chunks dictionary with the position as the key
+        _chunks.Add(worldPos, newChunk);
 
         var terrainGen = new TerrainGen();
         newChunk = terrainGen.ChunkGen(newChunk);
@@ -33,11 +35,11 @@ public class World : MonoBehaviour
     public void DestroyChunk(int x, int y, int z)
     {
         Chunk chunk = null;
-        if (chunks.TryGetValue(new WorldPos(x, y, z), out chunk))
+        if (_chunks.TryGetValue(new WorldPos(x, y, z), out chunk))
         {
             Serialization.SaveChunk(chunk);
             Destroy(chunk.gameObject);
-            chunks.Remove(new WorldPos(x, y, z));
+            _chunks.Remove(new WorldPos(x, y, z));
         }
     }
 
@@ -49,7 +51,7 @@ public class World : MonoBehaviour
         pos.y = Mathf.FloorToInt(y / multiple) * Chunk._chunkSize;
         pos.z = Mathf.FloorToInt(z / multiple) * Chunk._chunkSize;
         Chunk containerChunk = null;
-        chunks.TryGetValue(pos, out containerChunk);
+        _chunks.TryGetValue(pos, out containerChunk);
 
         return containerChunk;
     }
@@ -69,19 +71,21 @@ public class World : MonoBehaviour
     public void SetBlock(int x, int y, int z, Block block, bool isAdd = false)
     {
         Chunk chunk = GetChunk(x, y, z);
+        //Added position modifier for flipping between negative and positives
+        //Used mainly for Leaf blocks
+        var positionModifier = isAdd ? -1 : 1;
 
         if (chunk != null)
         {
-            //TODO: Remove logic for flipping signs using isAdd and create a better way of achiving the same results that is cleaner
-            chunk.SetBlock(x - (isAdd ? -1 * chunk._pos.x : chunk._pos.x), y - (isAdd ? -1 * chunk._pos.y : chunk._pos.y), z - (isAdd ? -1 * chunk._pos.z : chunk._pos.z), block);
+            chunk.SetBlock(x - (positionModifier * chunk._pos.x), y - (positionModifier * chunk._pos.y), z - (positionModifier * chunk._pos.z), block);
             chunk._update = true;
             
-            UpdateIfEqual(x - (isAdd ? -1 * chunk._pos.x : chunk._pos.x), 0, new WorldPos(x - (isAdd ? -1 * 1 : 1), y, z));
-            UpdateIfEqual(x - (isAdd ? -1 * chunk._pos.x : chunk._pos.x), Chunk._chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x + 1, y, z));
-            UpdateIfEqual(y - (isAdd ? -1 * chunk._pos.y : chunk._pos.y), 0, new WorldPos(x, y - (isAdd ? -1 * 1 : 1), z));
-            UpdateIfEqual(y - (isAdd ? -1 * chunk._pos.y : chunk._pos.y), Chunk._chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x, y + (isAdd ? -1 * 1 : 1), z));
-            UpdateIfEqual(z - (isAdd ? -1 * chunk._pos.z : chunk._pos.z), 0, new WorldPos(x, y, z - (isAdd ? -1 * 1 : 1)));
-            UpdateIfEqual(z - (isAdd ? -1 * chunk._pos.z : chunk._pos.z), Chunk._chunkSize - (isAdd ? -1 * 1 : 1), new WorldPos(x, y, z + (isAdd ? -1 * 1 : 1)));
+            UpdateIfEqual(x - (positionModifier * chunk._pos.x), 0, new WorldPos(x - positionModifier, y, z));
+            UpdateIfEqual(x - (positionModifier * chunk._pos.x), Chunk._chunkSize - positionModifier, new WorldPos(x + 1, y, z));
+            UpdateIfEqual(y - (positionModifier * chunk._pos.y), 0, new WorldPos(x, y - positionModifier, z));
+            UpdateIfEqual(y - (positionModifier * chunk._pos.y), Chunk._chunkSize - positionModifier, new WorldPos(x, y + positionModifier, z));
+            UpdateIfEqual(z - (positionModifier * chunk._pos.z), 0, new WorldPos(x, y, z - positionModifier));
+            UpdateIfEqual(z - (positionModifier * chunk._pos.z), Chunk._chunkSize - positionModifier, new WorldPos(x, y, z + positionModifier));
         }
     }
 

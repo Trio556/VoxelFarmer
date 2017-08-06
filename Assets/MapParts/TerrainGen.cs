@@ -3,19 +3,19 @@ using System.Collections;
 using SimplexNoise;
 public class TerrainGen
 {
-    float stoneBaseHeight = -24;
-    float stoneBaseNoise = 0.05f;
-    float stoneBaseNoiseHeight = 4;
-    float stoneMountainHeight = 48;
-    float stoneMountainFrequency = 0.008f;
-    float stoneMinHeight = -12;
-    float dirtBaseHeight = 1;
-    float dirtNoise = 0.04f;
-    float dirtNoiseHeight = 3;
-    float caveFrequency = 0.025f;
-    int caveSize = 7;
-    float treeFrequency = 0.2f;
-    int treeDensity = 3;
+    private float _stoneBaseHeight = -24;
+    private float _stoneBaseNoise = 0.05f;
+    private float _stoneBaseNoiseHeight = 4;
+    private float _stoneMountainHeight = 48;
+    private float _stoneMountainFrequency = 0.008f;
+    private float _stoneMinHeight = -12;
+    private float _dirtBaseHeight = 1;
+    private float _dirtNoise = 0.04f;
+    private float _dirtNoiseHeight = 3;
+    private float _caveFrequency = 0.025f;
+    private int _caveSize = 7;
+    private float _treeFrequency = 0.2f;
+    private int _treeDensity = 3;
 
     public Chunk ChunkGen(Chunk chunk)
     {
@@ -31,25 +31,21 @@ public class TerrainGen
 
     public Chunk ChunkColumnGen(Chunk chunk, int x, int z)
     {
-        int stoneHeight = Mathf.FloorToInt(stoneBaseHeight);
-        stoneHeight += GetNoise(x, 0, z, stoneMountainFrequency, Mathf.FloorToInt(stoneMountainHeight));
-        if (stoneHeight < stoneMinHeight)
-            stoneHeight = Mathf.FloorToInt(stoneMinHeight);
-        stoneHeight += GetNoise(x, 0, z, stoneBaseNoise, Mathf.FloorToInt(stoneBaseNoiseHeight));
-        int dirtHeight = stoneHeight + Mathf.FloorToInt(dirtBaseHeight);
-        dirtHeight += GetNoise(x, 100, z, dirtNoise, Mathf.FloorToInt(dirtNoiseHeight));
+        int stoneHeight = GetStoneHeight(x, z);
+        int dirtHeight = GetDirtHeight(x, z, stoneHeight);
+
         for (int y = chunk._pos.y - 8; y < chunk._pos.y + Chunk._chunkSize; y++)
         {
             //Get a value to base cave generation on
-            int caveChance = GetNoise(x, y, z, caveFrequency, 100);
-            if (y <= stoneHeight && caveSize < caveChance) 
+            int caveChance = GetNoise(x, y, z, _caveFrequency, 100);
+            if (y <= stoneHeight && _caveSize < caveChance)
             {
                 SetBlock(x, y, z, new Block(), chunk);
             }
-            else if (y <= dirtHeight && caveSize < caveChance) 
+            else if (y <= dirtHeight && _caveSize < caveChance)
             {
                 SetBlock(x, y, z, new BlockGrass(), chunk);
-                if (y == dirtHeight && GetNoise(x, 0, z, treeFrequency, 100) < treeDensity)   
+                if (y == dirtHeight && GetNoise(x, 0, z, _treeFrequency, 100) < _treeDensity)
                     CreateTree(x, y + 1, z, chunk);
             }
             else
@@ -58,6 +54,23 @@ public class TerrainGen
             }
         }
         return chunk;
+    }
+
+    private int GetDirtHeight(int x, int z, int stoneHeight)
+    {
+        int dirtHeight = stoneHeight + Mathf.FloorToInt(_dirtBaseHeight);
+        dirtHeight += GetNoise(x, 100, z, _dirtNoise, Mathf.FloorToInt(_dirtNoiseHeight));
+        return dirtHeight;
+    }
+
+    private int GetStoneHeight(int x, int z)
+    {
+        int stoneHeight = Mathf.FloorToInt(_stoneBaseHeight);
+        stoneHeight += GetNoise(x, 0, z, _stoneMountainFrequency, Mathf.FloorToInt(_stoneMountainHeight));
+        if (stoneHeight < _stoneMinHeight)
+            stoneHeight = Mathf.FloorToInt(_stoneMinHeight);
+        stoneHeight += GetNoise(x, 0, z, _stoneBaseNoise, Mathf.FloorToInt(_stoneBaseNoiseHeight));
+        return stoneHeight;
     }
 
     void CreateTree(int x, int y, int z, Chunk chunk)

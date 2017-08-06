@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23985095415080824}
   - component: {fileID: 33824275175349178}
   - component: {fileID: 114270837403389220}
+  - component: {fileID: 114297309587009560}
   m_Layer: 0
   m_Name: Chunk
   m_TagString: Untagged
@@ -107,10 +108,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c8708a8cede2a46872ed220f641a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  update: 1
-  rendered: 0
-  world: {fileID: 0}
-  pos:
+  _update: 0
+  _rendered: 0
+  _world: {fileID: 0}
+  _pos:
     x: 0
     y: 0
     z: 0
+--- !u!114 &114297309587009560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1515082603153166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193452005eddaba45a0e3df35fac2379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkPrefab: {fileID: 1515082603153166}
+  _worldName: world

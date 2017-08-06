@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 193452005eddaba45a0e3df35fac2379
-timeCreated: 1501297655
+timeCreated: 1502050448
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - chunkPrefab: {fileID: 1515082603153166, guid: 3f2f9ce7b6ac73b40944350ec8ca79a5,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
