@@ -27,7 +27,6 @@ public class Chunk : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-
         if (_update)
         {
             _update = false;
@@ -48,6 +47,7 @@ public class Chunk : MonoBehaviour
     {
         if (InRange(x) && InRange(y) && InRange(z))
             return _blocks[x, y, z];
+
         return _world.GetBlock(_pos.x + x, _pos.y + y, _pos.z + z);
     }
 

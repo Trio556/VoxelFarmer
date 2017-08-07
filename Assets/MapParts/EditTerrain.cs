@@ -56,13 +56,9 @@ public static class EditTerrain
         if (pos - (int)pos == 0.5f || pos - (int)pos == -0.5f)
         {
             if (adjacent)
-            {
                 pos += (norm / 2);
-            }
             else
-            {
                 pos -= (norm / 2);
-            }
         }
 
         return (float)pos;

@@ -30,7 +30,7 @@ public class Modify : MonoBehaviour
         if (isFire1Down && (currentTimeFire - lastFire1Time).TotalMilliseconds >= ticksBetweenFire)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 100))
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 25))
             {
                 EditTerrain.SetBlock(hit, new BlockAir());
             }
@@ -40,7 +40,7 @@ public class Modify : MonoBehaviour
         else if (isFire2Down && (currentTimeFire - lastFire2Time).TotalMilliseconds >= ticksBetweenFire)
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, 100))
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 25))
             {
                 EditTerrain.SetBlock(hit, new BlockGrass(), true);
             }
